@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./signup.css";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signupError, setSignupError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -16,7 +19,8 @@ const SignupForm = () => {
     if (userEmail && userPassword === confirmPassword) {
       setSignupError(""); // Clear any previous error
       alert("User registration successful. Please Login to continue.");
-      console.log("User Email is " + userEmail + " And user password is " + userPassword );
+      console.log("User has successfully signed up.")
+    //   console.log("User Email is " + userEmail + " And user password is " + userPassword );
       
       setUserEmail("");
       setUserPassword("");
@@ -69,7 +73,7 @@ const SignupForm = () => {
           Signup
         </Button>
         <br />
-        <Button variant="primary" className="sBtn">
+        <Button variant="primary" className="sBtn" onClick={()=>{navigate("/login")}}>
           Already Have An Account? Login
         </Button>
       </Form>
