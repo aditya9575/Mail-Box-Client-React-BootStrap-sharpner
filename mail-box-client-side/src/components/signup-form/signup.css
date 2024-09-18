@@ -1,0 +1,24 @@
+.signupDiv{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    height: 100vh;
+    flex-direction: column;
+
+}
+.sForm{
+    border: 2px solid rgb(207, 197, 197) ;
+    width: 400px;
+    height: 400px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+h2{
+    text-align: center;
+}
+
+.sBtn{
+    border: 0.2rem solid transparent;
+    border-radius: 30px;
+}
