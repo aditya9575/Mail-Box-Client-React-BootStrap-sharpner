@@ -10,31 +10,54 @@ const LoginForm = () => {
 
     const [userLoginEmail, setUserLoginEmail] = useState("");
   const [userLoginPassword, setUserLoginPassword] = useState("");
-  const [LoginError, setLoginError] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const navigate = useNavigate();
 
-  const handleUserLogin = (e) => {
+  const handleUserLogin = async (e) => {
     e.preventDefault();
 
-    // Check if email exists and password matches the confirm password
-    if (userEmail && userPassword === confirmPassword) {
+    try {
+        setIsLoading(true);
         setLoginError(""); // Clear any previous error
-      alert("User registration successful. Please Login to continue.");
-      console.log("User has successfully logged in")
-    //   console.log("User Email is " + userEmail + " And user password is " + userPassword );
-      
-    setUserLoginEmail("");
-    setUserLoginPassword("");
-    } else {
-        setLoginError("Invalid Credentials");
-    }
+  
+        // Data for login
+        const loginData = {
+          email: userLoginEmail,
+          password: userLoginPassword,
+          returnSecureToken: true,
+        };
+  
+        const response = await axios.post(
+          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDXY6vqrdHmUdbcC60-IgQto-bRakHw3-Q",
+          loginData
+        );
+  
+        // Handle successful login
+        alert(`Login successful! Welcome ${response.data.email}`);
+        
+        // Store ID token (optional, based on your app's need)
+        localStorage.setItem("idToken", response.data.idToken);
+        
+        // Clear input fields
+        setUserLoginEmail("");
+        setUserLoginPassword("");
+  
+        // Navigate to another page after successful login
+        navigate("/homepage"); // Example path, you can update this
+      } catch (error) {
+        console.error(error);
+        const errorMessage = error.response?.data?.error?.message || "An error occurred during login";
+        
+        // Set error message and show it in an alert
+        setLoginError(errorMessage);
+      } finally {
+        setIsLoading(false);
+      }
   };
 
-  const handlePasswordChange = () => {
-    // const endPoint = "https://identitytoolkit.googleapis.com/v1/accounts:update?key=[API_KEY]"
-    // axios.post()
-  }
 
   return (
     <div>
@@ -62,10 +85,13 @@ const LoginForm = () => {
           />
         </Form.Group>
 
-
-        <Button variant="primary" type="submit" className="lBtn">
-         Login
+        {loginError && (
+          <p style={{ color: "red", fontSize: "12px" }}>{loginError}</p> // Display the error message
+        )}
+        <Button variant="primary" type="submit" className="lBtn" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
         </Button>
+       
         <Link to="/forgotpassword" >Forgot password</Link>
         <br />
         <Button variant="primary" className="lBtn" onClick={()=>{navigate("/")}}>

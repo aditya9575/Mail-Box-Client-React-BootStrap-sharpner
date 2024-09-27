@@ -1,0 +1,84 @@
+/* Container for the entire email sender component */
+.escontainer {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  /* Header styles for the email input fields */
+  .esheader {
+    margin-bottom: 10px;
+  }
+  
+  /* Input field styles for 'To' and 'Subject' */
+  .esinputField {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  /* Footer container holding the Send button and icon bar */
+  .esfooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  /* Send button styles */
+  .essendButton {
+    background-color: #1a73e8;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Icon bar styles */
+  .esiconBar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Individual icons in the icon bar */
+  .esicon {
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* List of attachments */
+  .esattachmentList {
+    margin-top: 10px;
+  }
+  
+  /* Individual attachment items */
+  .esattachmentItem {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f1f1f1;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+  }
+  
+  /* Remove button for attachments */
+  .esremoveButton {
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 5px;
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,50 @@
+.email-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.email-content {
+  flex-grow: 2;
+  display: flex;
+  align-items: center; /* Align items (blue dot and subject) vertically */
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.email-subject {
+  font-weight: bold;
+  margin-right: 20px;
+  display: inline-block;
+}
+
+.email-body {
+  margin-left: 20px;
+  max-width: 500px; /* Limit the email body width */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333; /* Add color for better readability */
+  font-size: 0.875rem; /* Set a smaller font size */
+  line-height: 1.2; /* Adjust line height for readability */
+}
+
+.email-time {
+  min-width: 100px;
+  text-align: right;
+  color: gray;
+}
+
+.selected {
+  background-color: #f8f9fa;
+}
+
+/* Ensure the dot is aligned with the subject */
+.blue-dot {
+  margin-right: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: blue;
+  border-radius: 50%;
+  display: inline-block; /* Keep it inline with the subject */
+}

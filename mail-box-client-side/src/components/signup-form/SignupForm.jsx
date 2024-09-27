@@ -3,30 +3,61 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./signup.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignupForm = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signupError, setSignupError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     // Check if email exists and password matches the confirm password
-    if (userEmail && userPassword === confirmPassword) {
+    if (userPassword !== confirmPassword) {
+      setSignupError("Passwords don't match");
+      alert("Passwords don't match!"); // Display error alert
+      return;
+    }
+
+    try {
+      setIsLoading(true);
       setSignupError(""); // Clear any previous error
-      alert("User registration successful. Please Login to continue.");
-      console.log("User has successfully signed up.")
-    //   console.log("User Email is " + userEmail + " And user password is " + userPassword );
+
+      const dataToSignup = {
+        email: userEmail,
+        password: userPassword,
+        returnSecureToken: true,
+      };
+
+      const response = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDXY6vqrdHmUdbcC60-IgQto-bRakHw3-Q",
+        dataToSignup
+      );
+
+      // Handle successful signup by alerting the user
+      alert(`Signup successful! Welcome ${response.data.email}`);
       
+      // Clear form fields
       setUserEmail("");
       setUserPassword("");
       setConfirmPassword("");
-    } else {
-      setSignupError("Entered Passwords Don't Match");
+      
+      // Navigate to login page after signup
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+      const errorMessage = error.response?.data?.error?.message || "An error occurred during signup";
+      
+      // Set the error state and show an alert with the error message
+      setSignupError(errorMessage);
+      alert(`Error: ${errorMessage}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,18 +93,18 @@ const SignupForm = () => {
             required
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            style={{ borderColor: signupError ? "red" : "" }} // Change border color if there's an error
+            style={{ borderColor: signupError ? "red" : "" }} 
           />
           {signupError && (
-            <p style={{ color: "red", fontSize: "12px" }}>{signupError}</p> // Display the error message
+            <p style={{ color: "red", fontSize: "12px" }}>{signupError}</p> 
           )}
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="sBtn">
-          Signup
+        <Button variant="primary" type="submit" className="sBtn" disabled={isLoading}>
+          {isLoading ? "Signing up..." : "Signup"}
         </Button>
         <br />
-        <Button variant="primary" className="sBtn" onClick={()=>{navigate("/login")}}>
+        <Button variant="primary" className="sBtn" onClick={() => navigate("/login")}>
           Already Have An Account? Login
         </Button>
       </Form>
